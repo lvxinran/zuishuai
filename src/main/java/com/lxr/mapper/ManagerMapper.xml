@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lxr.mapper.ManagerMapper" >
+  <resultMap id="BaseResultMap" type="com.lxr.model.Manager" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="managerName" property="managername" jdbcType="VARCHAR" />
+    <result column="managerPassword" property="managerpassword" jdbcType="VARCHAR" />
+    <result column="permission" property="permission" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, managerName, managerPassword, permission
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from manager
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectLogin" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List" /> 
+  	from manager
+  	where managerName=#{managername} and managerPassword=#{managerpassword}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from manager
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lxr.model.Manager" >
+    insert into manager (id, managerName, managerPassword, 
+      permission)
+    values (#{id,jdbcType=INTEGER}, #{managername,jdbcType=VARCHAR}, #{managerpassword,jdbcType=VARCHAR}, 
+      #{permission,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lxr.model.Manager" >
+    insert into manager
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="managername != null" >
+        managerName,
+      </if>
+      <if test="managerpassword != null" >
+        managerPassword,
+      </if>
+      <if test="permission != null" >
+        permission,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="managername != null" >
+        #{managername,jdbcType=VARCHAR},
+      </if>
+      <if test="managerpassword != null" >
+        #{managerpassword,jdbcType=VARCHAR},
+      </if>
+      <if test="permission != null" >
+        #{permission,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lxr.model.Manager" >
+    update manager
+    <set >
+      <if test="managername != null" >
+        managerName = #{managername,jdbcType=VARCHAR},
+      </if>
+      <if test="managerpassword != null" >
+        managerPassword = #{managerpassword,jdbcType=VARCHAR},
+      </if>
+      <if test="permission != null" >
+        permission = #{permission,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lxr.model.Manager" >
+    update manager
+    set managerName = #{managername,jdbcType=VARCHAR},
+      managerPassword = #{managerpassword,jdbcType=VARCHAR},
+      permission = #{permission,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
